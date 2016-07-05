@@ -1,0 +1,22 @@
+# Purpose: Manage project, build/run etc
+#
+# Author: rob dux <rob@telnyx.com>
+#
+# https://docs.docker.com/compose/
+# https://docs.docker.com/compose/compose-file/
+
+version: '2'
+services:
+  node:
+    build:
+      context: .
+    image: robwdux/alpine-node
+    container_name: node
+#    environment:
+#      MY_VAR: value
+#    volumes:
+#      - ./:/app:ro
+#    expose:
+#      - "9000"
+#    ports:
+#      - "9000:9000"
