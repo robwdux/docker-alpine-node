@@ -10,7 +10,7 @@ services:
   node:
     build:
       context: .
-    image: robwdux/alpine-node
+    image: robwdux/alpine-node:6.2.2
     container_name: node
 #    environment:
 #      MY_VAR: value
