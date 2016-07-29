@@ -6,10 +6,9 @@ WORKDIR /app
 
 CMD ["/usr/bin/node"]
 
-ARG NODE_VERSION
+ARG NODE_VERSION=${NODE_VERSION:-6.2.2}
 
-ENV NODE_VERSION=${NODE_VERSION:-6.2.2} \
-    CONFIG="\
+ENV CONFIG="\
       --prefix=/usr \
       --shared-zlib \
       --shared-libuv \
@@ -40,8 +39,8 @@ RUN set -o nounset -o errexit -o xtrace -o verbose \
           C4F0DFFF4E8C1A8236409D08E73BC641CC11F4C8 \
           B9AE9905FFD7803F25714661B63B535A4C206CA9 \
     && mkdir /usr/src && cd /usr/src \
-    && curl -fsSLO https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}.tar.gz \
-    && curl -fsSLO https://nodejs.org/dist/v${NODE_VERSION}/SHASUMS256.txt.asc \
+    && curl -fLO https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}.tar.gz \
+    && curl -fLO https://nodejs.org/dist/v${NODE_VERSION}/SHASUMS256.txt.asc \
     && gpg --verify SHASUMS256.txt.asc \
     && grep node-v${NODE_VERSION}.tar.gz SHASUMS256.txt.asc | sha256sum -c - \
     && tar -zxf node-v${NODE_VERSION}.tar.gz && cd node-v${NODE_VERSION} \
@@ -57,10 +56,7 @@ RUN set -o nounset -o errexit -o xtrace -o verbose \
 		# purge
     && apk del --purge .buildDeps \
     && cd; rm -rf /usr/src /root/* /tmp/* \
-	  && for d in doc html man; do rm -vr /usr/lib/node_modules/npm/$d; done
-
-
-RUN set -o nounset -o errexit -o xtrace -o verbose \
+	  && for d in doc html man; do rm -vr /usr/lib/node_modules/npm/$d; done \
     && runDeps="$( \
           scanelf --needed --nobanner /usr/bin/node \
             | awk '{ gsub(/,/, "\nso:", $2); print "so:" $2 }' \

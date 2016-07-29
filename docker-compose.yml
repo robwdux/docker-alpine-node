@@ -9,8 +9,10 @@ version: '2'
 services:
   node:
     build:
+      args:
+        NODE_VERSION: ${NODE_VERSION}
       context: .
-    image: robwdux/alpine-node:6.2.2
+    image: robwdux/alpine-node:${NODE_VERSION}
     container_name: node
 #    environment:
 #      MY_VAR: value

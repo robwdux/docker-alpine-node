@@ -1,5 +1,7 @@
 #!/bin/bash
 
+export NODE_VERSION=6.2.2
+
 # work around limitations of docker-compose build
 
 if [[ $(id -u) != 0 ]] || [[ -z ${SUDO_COMMAND+x} ]]; then
